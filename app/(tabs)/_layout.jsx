@@ -1,7 +1,9 @@
 import { StatusBar } from "expo-status-bar";
 import { Redirect, Tabs } from "expo-router";
-import { Image, Text, View } from "react-native";
+import { Text, View } from "react-native";
+import { Image } from "expo-image";
 
+import { common } from "../../constants";
 import { icons } from "../../constants";
 import { Loader } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
@@ -11,9 +13,11 @@ const TabIcon = ({ icon, color, name, focused }) => {
     <View className="flex items-center justify-center gap-2">
       <Image
         source={icon}
-        resizeMode="contain"
         tintColor={color}
         className="w-6 h-6"
+        transition={500}
+        placeholder={common.blurhash}
+        contentFit="contain"
       />
       <Text
         className={`${focused ? "font-psemibold" : "font-pregular"} text-xs`}
@@ -61,15 +65,15 @@ const TabLayout = () => {
           }}
         />
         <Tabs.Screen
-          name="bookmark"
+          name="saved"
           options={{
-            title: "Bookmark",
+            title: "Saved",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.bookmark}
                 color={color}
-                name="Bookmark"
+                name="Saved"
                 focused={focused}
               />
             ),

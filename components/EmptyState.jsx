@@ -1,6 +1,8 @@
 import { router } from "expo-router";
-import { View, Text, Image } from "react-native";
+import { View, Text } from "react-native";
+import { Image } from "expo-image";
 
+import { common } from "../constants";
 import { images } from "../constants";
 import CustomButton from "./CustomButton";
 
@@ -9,8 +11,10 @@ const EmptyState = ({ title, subtitle }) => {
     <View className="flex justify-center items-center px-4">
       <Image
         source={images.empty}
-        resizeMode="contain"
         className="w-[270px] h-[216px]"
+        transition={500}
+        placeholder={common.blurhash}
+        contentFit="contain"
       />
 
       <Text className="text-sm font-pmedium text-gray-100">{title}</Text>

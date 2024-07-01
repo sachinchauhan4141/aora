@@ -1,7 +1,9 @@
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Image, FlatList, TouchableOpacity } from "react-native";
+import { View, FlatList, TouchableOpacity } from "react-native";
+import { Image } from "expo-image";
 
+import { common } from "../../constants";
 import { icons } from "../../constants";
 import useAppwrite from "../../lib/useAppwrite";
 import { getUserPosts, signOut } from "../../lib/appwrite";
@@ -30,8 +32,8 @@ const Profile = () => {
             title={item.title}
             thumbnail={item.thumbnail}
             video={item.video}
-            creator={item.creator.username}
-            avatar={item.creator.avatar}
+            creator={item.creator?.username}
+            avatar={item.creator?.avatar}
           />
         )}
         ListEmptyComponent={() => (
@@ -48,8 +50,10 @@ const Profile = () => {
             >
               <Image
                 source={icons.logout}
-                resizeMode="contain"
                 className="w-6 h-6"
+                transition={500}
+                placeholder={common.blurhash}
+                contentFit="contain"
               />
             </TouchableOpacity>
 
@@ -57,7 +61,9 @@ const Profile = () => {
               <Image
                 source={{ uri: user?.avatar }}
                 className="w-[90%] h-[90%] rounded-lg"
-                resizeMode="cover"
+                transition={500}
+                placeholder={common.blurhash}
+                contentFit="contain"
               />
             </View>
 

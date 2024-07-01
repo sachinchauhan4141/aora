@@ -1,9 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { Redirect, router } from "expo-router";
-import { View, Text, Image, ScrollView } from "react-native";
+import { Image } from "expo-image";
+import { View, Text, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images } from "../constants";
+import { common } from "../constants";
 import { CustomButton, Loader } from "../components";
 import { useGlobalContext } from "../context/GlobalProvider";
 
@@ -25,13 +27,17 @@ const Welcome = () => {
           <Image
             source={images.logo}
             className="w-[130px] h-[84px]"
-            resizeMode="contain"
+            transition={500}
+            placeholder={common.blurhash}
+            contentFit="contain"
           />
 
           <Image
             source={images.cards}
             className="max-w-[380px] w-full h-[298px]"
-            resizeMode="contain"
+            transition={500}
+            placeholder={common.blurhash}
+            contentFit="contain"
           />
 
           <View className="relative mt-5">
@@ -44,13 +50,15 @@ const Welcome = () => {
             <Image
               source={images.path}
               className="w-[136px] h-[15px] absolute -bottom-2 -right-8"
-              resizeMode="contain"
+              transition={500}
+              placeholder={common.blurhash}
+              contentFit="contain"
             />
           </View>
 
           <Text className="text-sm font-pregular text-gray-100 mt-7 text-center">
             Where Creativity Meets Innovation: Embark on a Journey of Limitless
-            Exploration with Aora
+            Exploration with watchnow
           </Text>
 
           <CustomButton

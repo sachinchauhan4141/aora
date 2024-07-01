@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { ResizeMode, Video } from "expo-av";
 import * as Animatable from "react-native-animatable";
-import {
-  FlatList,
-  Image,
-  ImageBackground,
-  TouchableOpacity,
-} from "react-native";
+import { FlatList, TouchableOpacity } from "react-native";
+import { Image, ImageBackground } from "expo-image";
 
+import { common } from "../constants";
 import { icons } from "../constants";
 
 const zoomIn = {
@@ -61,13 +58,17 @@ const TrendingItem = ({ activeItem, item }) => {
               uri: item.thumbnail,
             }}
             className="w-52 h-72 rounded-[33px] my-5 overflow-hidden shadow-lg shadow-black/40"
-            resizeMode="cover"
+            transition={500}
+            placeholder={common.blurhash}
+            contentFit="contain"
           />
 
           <Image
             source={icons.play}
             className="w-12 h-12 absolute"
-            resizeMode="contain"
+            transition={500}
+            placeholder={common.blurhash}
+            contentFit="contain"
           />
         </TouchableOpacity>
       )}

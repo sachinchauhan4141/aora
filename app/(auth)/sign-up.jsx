@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Link, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
+import { View, Text, ScrollView, Dimensions, Alert } from "react-native";
+import { Image } from "expo-image";
 
 import { images } from "../../constants";
+import { common } from "../../constants";
 import { createUser } from "../../lib/appwrite";
 import { CustomButton, FormField } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
@@ -48,12 +50,14 @@ const SignUp = () => {
         >
           <Image
             source={images.logo}
-            resizeMode="contain"
             className="w-[115px] h-[34px]"
+            transition={500}
+            placeholder={common.blurhash}
+            contentFit="contain"
           />
 
           <Text className="text-2xl font-semibold text-white mt-10 font-psemibold">
-            Sign Up to Aora
+            Sign Up to WatchNow
           </Text>
 
           <FormField

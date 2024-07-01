@@ -1,11 +1,26 @@
 import { useState } from "react";
 import { ResizeMode, Video } from "expo-av";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
+import { Image } from "expo-image";
 
+import { common } from "../constants";
 import { icons } from "../constants";
+import { toggleLike } from "../lib/appwrite";
+import { useGlobalContext } from "../context/GlobalProvider";
 
-const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
+const VideoCard = ({ id, title, creator, avatar, thumbnail, video, liked }) => {
+  const { user } = useGlobalContext();
   const [play, setPlay] = useState(false);
+  const [isLiked, setisLiked] = useState(liked);
+
+  const handleLiked = async () => {
+    setisLiked(!isLiked);
+    await toggleLike(id, user.username);
+    Alert.alert(
+      !isLiked ? "Liked" : "Disliked",
+      !isLiked ? "Added to saved" : "Removed from saved"
+    );
+  };
 
   return (
     <View className="flex flex-col items-center px-4 mb-14">
@@ -15,7 +30,9 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
             <Image
               source={{ uri: avatar }}
               className="w-full h-full rounded-lg"
-              resizeMode="cover"
+              transition={500}
+              placeholder={common.blurhash}
+              contentFit="contain"
             />
           </View>
 
@@ -35,8 +52,24 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
           </View>
         </View>
 
+        <TouchableOpacity onPress={handleLiked} className="pt-2">
+          <Image
+            tintColor={isLiked ? "#FFA001" : ""}
+            source={icons.like}
+            className="w-5 h-5"
+            transition={500}
+            placeholder={common.blurhash}
+            contentFit="contain"
+          />
+        </TouchableOpacity>
         <View className="pt-2">
-          <Image source={icons.menu} className="w-5 h-5" resizeMode="contain" />
+          <Image
+            source={icons.menu}
+            className="w-5 h-5"
+            transition={500}
+            placeholder={common.blurhash}
+            contentFit="contain"
+          />
         </View>
       </View>
 
@@ -62,13 +95,17 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
           <Image
             source={{ uri: thumbnail }}
             className="w-full h-full rounded-xl mt-3"
-            resizeMode="cover"
+            transition={500}
+            placeholder={common.blurhash}
+            contentFit="contain"
           />
 
           <Image
             source={icons.play}
             className="w-12 h-12 absolute"
-            resizeMode="contain"
+            transition={500}
+            placeholder={common.blurhash}
+            contentFit="contain"
           />
         </TouchableOpacity>
       )}

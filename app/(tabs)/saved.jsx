@@ -1,18 +1,14 @@
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Alert, FlatList, RefreshControl, Text, View } from "react-native";
-import { Image } from "expo-image";
 
-import { common } from "../../constants";
-import { images } from "../../constants";
 import useAppwrite from "../../lib/useAppwrite";
 import { getAllPosts, getLatestPosts } from "../../lib/appwrite";
-import { EmptyState, SearchInput, Trending, VideoCard } from "../../components";
+import { EmptyState, SearchInput, VideoCard } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
-const Home = () => {
+const Saved = () => {
   const { data: posts, refetch } = useAppwrite(getAllPosts);
-  const { data: latestPosts } = useAppwrite(getLatestPosts);
   const { user } = useGlobalContext();
 
   const [refreshing, setRefreshing] = useState(false);
@@ -21,19 +17,13 @@ const Home = () => {
     setRefreshing(true);
     await refetch();
     setRefreshing(false);
-    Alert.alert("Refetched all videos");
+    Alert.alert("Refetched all liked videos");
   };
-
-  // one flatlist
-  // with list header
-  // and horizontal flatlist
-
-  //  we cannot do that with just scrollview as there's both horizontal and vertical scroll (two flat lists, within trending)
 
   return (
     <SafeAreaView className="bg-primary h-full">
       <FlatList
-        data={posts}
+        data={posts.filter((post) => post.like.includes(user?.username))}
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
           <VideoCard
@@ -48,36 +38,10 @@ const Home = () => {
         )}
         ListHeaderComponent={() => (
           <View className="flex my-6 px-4 space-y-6">
-            <View className="flex justify-between items-start flex-row mb-6">
-              <View>
-                <Text className="font-pmedium text-sm text-gray-100">
-                  Welcome Back
-                </Text>
-                <Text className="text-2xl font-psemibold text-white">
-                  {user?.username}
-                </Text>
-              </View>
-
-              <View className="mt-1.5">
-                <Image
-                  source={images.logoSmall}
-                  className="w-9 h-10"
-                  transition={500}
-                  placeholder={common.blurhash}
-                  contentFit="contain"
-                />
-              </View>
-            </View>
-
+            <Text className="text-2xl font-psemibold text-white mb-3">
+              Saved Videos
+            </Text>
             <SearchInput />
-
-            <View className="w-full flex-1 pt-5 pb-8">
-              <Text className="text-lg font-pregular text-gray-100 mb-3">
-                Latest Videos
-              </Text>
-
-              <Trending posts={latestPosts ?? []} />
-            </View>
           </View>
         )}
         ListEmptyComponent={() => (
@@ -94,4 +58,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Saved;

@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { router, usePathname } from "expo-router";
-import { View, TouchableOpacity, Image, TextInput, Alert } from "react-native";
+import { View, TouchableOpacity, TextInput, Alert } from "react-native";
+import { Image } from "expo-image";
 
+import { common } from "../constants";
 import { icons } from "../constants";
 
 const SearchInput = ({ initialQuery }) => {
@@ -23,14 +25,20 @@ const SearchInput = ({ initialQuery }) => {
           if (query === "")
             return Alert.alert(
               "Missing Query",
-              "Please input something to search results across database"
+              "Please input something to search"
             );
 
           if (pathname.startsWith("/search")) router.setParams({ query });
           else router.push(`/search/${query}`);
         }}
       >
-        <Image source={icons.search} className="w-5 h-5" resizeMode="contain" />
+        <Image
+          source={icons.search}
+          className="w-5 h-5"
+          transition={500}
+          placeholder={common.blurhash}
+          contentFit="contain"
+        />
       </TouchableOpacity>
     </View>
   );

@@ -11,10 +11,10 @@ import { useGlobalContext } from "../context/GlobalProvider";
 const VideoCard = ({ id, title, creator, avatar, thumbnail, video, liked }) => {
   const { user } = useGlobalContext();
   const [play, setPlay] = useState(false);
-  const [isLiked, setisLiked] = useState(liked);
+  const [isLiked, setIsLiked] = useState(liked);
 
   const handleLiked = async () => {
-    setisLiked(!isLiked);
+    setIsLiked(!isLiked);
     await toggleLike(id, user.username);
     Alert.alert(
       !isLiked ? "Liked" : "Disliked",

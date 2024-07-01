@@ -43,13 +43,13 @@ const Welcome = () => {
           <View className="relative mt-5">
             <Text className="text-3xl text-white font-bold text-center">
               Discover Endless{"\n"}
-              Possibilities with{" "}
-              <Text className="text-secondary-200">Aora</Text>
+              Possibilities with{"\n"}
+              <Text className="text-secondary-200">WatchNow</Text>
             </Text>
 
             <Image
               source={images.path}
-              className="w-[136px] h-[15px] absolute -bottom-2 -right-8"
+              className="w-[136px] h-[15px] absolute -bottom-2 right-6"
               transition={500}
               placeholder={common.blurhash}
               contentFit="contain"
@@ -58,7 +58,7 @@ const Welcome = () => {
 
           <Text className="text-sm font-pregular text-gray-100 mt-7 text-center">
             Where Creativity Meets Innovation: Embark on a Journey of Limitless
-            Exploration with watchnow
+            Exploration with WatchNow
           </Text>
 
           <CustomButton

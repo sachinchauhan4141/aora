@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "watchnow",
+    "name": "WatchNow",
     "slug": "watchnowmobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -37,8 +37,7 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
-      ],
-      "expo-video"
+      ]
     ]
   }
 }

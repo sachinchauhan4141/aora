@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Alert, FlatList, RefreshControl, Text, View } from "react-native";
+import { FlatList, RefreshControl, Text, View } from "react-native";
 import { Image } from "expo-image";
 
 import { common } from "../../constants";
@@ -21,7 +21,6 @@ const Home = () => {
     setRefreshing(true);
     await refetch();
     setRefreshing(false);
-    Alert.alert("Refetched all videos");
   };
 
   // one flatlist
@@ -31,7 +30,7 @@ const Home = () => {
   //  we cannot do that with just scrollview as there's both horizontal and vertical scroll (two flat lists, within trending)
 
   return (
-    <SafeAreaView className="bg-primary h-full">
+    <SafeAreaView className="bg-primary h-full text-white">
       <FlatList
         data={posts}
         keyExtractor={(item) => item.$id}

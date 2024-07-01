@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ResizeMode, Video } from "expo-av";
-import { View, Text, TouchableOpacity, Alert } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Image } from "expo-image";
 
 import { common } from "../constants";
@@ -14,12 +14,8 @@ const VideoCard = ({ id, title, creator, avatar, thumbnail, video, liked }) => {
   const [isLiked, setIsLiked] = useState(liked);
 
   const handleLiked = async () => {
-    setIsLiked(!isLiked);
     await toggleLike(id, user.username);
-    Alert.alert(
-      !isLiked ? "Liked" : "Disliked",
-      !isLiked ? "Added to saved" : "Removed from saved"
-    );
+    setIsLiked(!isLiked);
   };
 
   return (

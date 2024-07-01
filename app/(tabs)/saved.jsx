@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Alert, FlatList, RefreshControl, Text, View } from "react-native";
+import { FlatList, RefreshControl, Text, View } from "react-native";
 
 import useAppwrite from "../../lib/useAppwrite";
-import { getAllPosts, getLatestPosts } from "../../lib/appwrite";
+import { getAllPosts } from "../../lib/appwrite";
 import { EmptyState, SearchInput, VideoCard } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
@@ -17,7 +17,6 @@ const Saved = () => {
     setRefreshing(true);
     await refetch();
     setRefreshing(false);
-    Alert.alert("Refetched all liked videos");
   };
 
   return (

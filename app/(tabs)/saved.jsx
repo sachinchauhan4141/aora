@@ -6,11 +6,13 @@ import useAppwrite from "../../lib/useAppwrite";
 import { getAllPosts } from "../../lib/appwrite";
 import { EmptyState, SearchInput, VideoCard } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
+import CommentModal from "../../components/CommentModal";
 
 const Saved = () => {
   const { data: posts, refetch } = useAppwrite(getAllPosts);
   const { user } = useGlobalContext();
 
+  const [modalVisible, setModalVisible] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = async () => {
@@ -33,6 +35,7 @@ const Saved = () => {
             creator={item.creator?.username}
             avatar={item.creator?.avatar}
             liked={item.like.includes(user?.username)}
+            setVisible={setModalVisible}
           />
         )}
         ListHeaderComponent={() => (
@@ -53,6 +56,7 @@ const Saved = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       />
+      <CommentModal isVisible={modalVisible} setVisible={setModalVisible} />
     </SafeAreaView>
   );
 };

@@ -12,6 +12,9 @@ import eyeHide from "../assets/icons/eye-hide.png";
 import eye from "../assets/icons/eye.png";
 import play from "../assets/icons/play.png";
 import like from "../assets/icons/like.png";
+import send from "../assets/icons/send.png";
+import comment from "../assets/icons/comment.png";
+import minimise from "../assets/icons/minimise.png";
 
 export default {
   play,
@@ -28,4 +31,7 @@ export default {
   eyeHide,
   eye,
   like,
+  send,
+  comment,
+  minimise,
 };

@@ -8,7 +8,16 @@ import { icons } from "../constants";
 import { toggleLike } from "../lib/appwrite";
 import { useGlobalContext } from "../context/GlobalProvider";
 
-const VideoCard = ({ id, title, creator, avatar, thumbnail, video, liked }) => {
+const VideoCard = ({
+  id,
+  title,
+  creator,
+  avatar,
+  thumbnail,
+  video,
+  liked,
+  setVisible,
+}) => {
   const { user } = useGlobalContext();
   const [play, setPlay] = useState(false);
   const [isLiked, setIsLiked] = useState(liked);
@@ -52,6 +61,15 @@ const VideoCard = ({ id, title, creator, avatar, thumbnail, video, liked }) => {
           <Image
             tintColor={isLiked ? "#FFA001" : ""}
             source={icons.like}
+            className="w-5 h-5"
+            transition={500}
+            placeholder={common.blurhash}
+            contentFit="contain"
+          />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setVisible(true)} className="pt-2">
+          <Image
+            source={icons.comment}
             className="w-5 h-5"
             transition={500}
             placeholder={common.blurhash}

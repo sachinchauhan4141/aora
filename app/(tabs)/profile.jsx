@@ -9,10 +9,14 @@ import useAppwrite from "../../lib/useAppwrite";
 import { getUserPosts, signOut } from "../../lib/appwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import { EmptyState, InfoBox, VideoCard } from "../../components";
+import { useState } from "react";
+import CommentModal from "../../components/CommentModal";
 
 const Profile = () => {
   const { user, setUser, setIsLogged } = useGlobalContext();
   const { data: posts } = useAppwrite(() => getUserPosts(user.$id));
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const logout = async () => {
     await signOut();
@@ -29,11 +33,14 @@ const Profile = () => {
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
           <VideoCard
+            id={item.$id}
             title={item.title}
             thumbnail={item.thumbnail}
             video={item.video}
             creator={item.creator?.username}
             avatar={item.creator?.avatar}
+            liked={item.like.includes(user?.username)}
+            setVisible={setModalVisible}
           />
         )}
         ListEmptyComponent={() => (
@@ -89,6 +96,7 @@ const Profile = () => {
           </View>
         )}
       />
+      <CommentModal isVisible={modalVisible} setVisible={setModalVisible} />
     </SafeAreaView>
   );
 };

@@ -1,19 +1,21 @@
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FlatList, RefreshControl, Text, View } from "react-native";
+import { EmptyState, SearchInput, Trending, VideoCard } from "../../components";
 import { Image } from "expo-image";
 
 import { common } from "../../constants";
 import { images } from "../../constants";
 import useAppwrite from "../../lib/useAppwrite";
 import { getAllPosts, getLatestPosts } from "../../lib/appwrite";
-import { EmptyState, SearchInput, Trending, VideoCard } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
+import CommentModal from "../../components/CommentModal";
 
 const Home = () => {
   const { data: posts, refetch } = useAppwrite(getAllPosts);
   const { data: latestPosts } = useAppwrite(getLatestPosts);
   const { user } = useGlobalContext();
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -23,14 +25,8 @@ const Home = () => {
     setRefreshing(false);
   };
 
-  // one flatlist
-  // with list header
-  // and horizontal flatlist
-
-  //  we cannot do that with just scrollview as there's both horizontal and vertical scroll (two flat lists, within trending)
-
   return (
-    <SafeAreaView className="bg-primary h-full text-white">
+    <SafeAreaView className="bg-primary h-full">
       <FlatList
         data={posts}
         keyExtractor={(item) => item.$id}
@@ -43,6 +39,7 @@ const Home = () => {
             creator={item.creator?.username}
             avatar={item.creator?.avatar}
             liked={item.like.includes(user?.username)}
+            setVisible={setModalVisible}
           />
         )}
         ListHeaderComponent={() => (
@@ -89,6 +86,7 @@ const Home = () => {
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       />
+      <CommentModal isVisible={modalVisible} setVisible={setModalVisible} />
     </SafeAreaView>
   );
 };

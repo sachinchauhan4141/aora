@@ -3,13 +3,13 @@ import { useLocalSearchParams } from "expo-router";
 import { View, Text, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import useAppwrite from "../../lib/useAppwrite";
-import { searchPosts } from "../../lib/appwrite";
+import useFirebase from "../../lib/useFirebase";
+import { searchPosts } from "../../lib/firebase";
 import { EmptyState, SearchInput, VideoCard } from "../../components";
 
 const Search = () => {
   const { query } = useLocalSearchParams();
-  const { data: posts, refetch } = useAppwrite(() => searchPosts(query));
+  const { data: posts, refetch } = useFirebase(() => searchPosts(query));
 
   useEffect(() => {
     refetch();

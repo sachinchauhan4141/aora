@@ -5,7 +5,7 @@ import { Image } from "expo-image";
 
 import { common } from "../constants";
 import { icons } from "../constants";
-import { toggleLike } from "../lib/appwrite";
+import { toggleLike } from "../lib/firebase";
 import { useGlobalContext } from "../context/GlobalProvider";
 
 const VideoCard = ({

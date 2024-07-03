@@ -7,8 +7,9 @@ import { Image } from "expo-image";
 import { images } from "../../constants";
 import { common } from "../../constants";
 import { CustomButton, FormField } from "../../components";
-import { getCurrentUser, signIn } from "../../lib/appwrite";
+import { signIn } from "../../lib/firebase";
 import { useGlobalContext } from "../../context/GlobalProvider";
+import { onAuthStateChanged } from "firebase/auth";
 
 const SignIn = () => {
   const { setUser, setIsLogged } = useGlobalContext();
@@ -27,11 +28,15 @@ const SignIn = () => {
 
     try {
       await signIn(form.email, form.password);
-      const result = await getCurrentUser();
-      setUser(result);
-      setIsLogged(true);
-
-      router.replace("/home");
+      onAuthStateChanged((user) => {
+        if (user) {
+          setUser(user);
+          setIsLogged(true);
+          router.replace("/home");
+        } else {
+          Alert.alert("sign in", "something went wrong");
+        }
+      });
     } catch (error) {
       Alert.alert("Error", error.message);
     } finally {

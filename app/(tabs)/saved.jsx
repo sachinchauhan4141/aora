@@ -2,14 +2,14 @@ import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FlatList, RefreshControl, Text, View } from "react-native";
 
-import useAppwrite from "../../lib/useAppwrite";
-import { getAllPosts } from "../../lib/appwrite";
+import useFirebase from "../../lib/useFirebase";
+import { getAllPosts } from "../../lib/firebase";
 import { EmptyState, SearchInput, VideoCard } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import CommentModal from "../../components/CommentModal";
 
 const Saved = () => {
-  const { data: posts, refetch } = useAppwrite(getAllPosts);
+  const { data: posts, refetch } = useFirebase(getAllPosts);
   const { user } = useGlobalContext();
 
   const [modalVisible, setModalVisible] = useState(false);

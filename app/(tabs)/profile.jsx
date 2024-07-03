@@ -5,8 +5,8 @@ import { Image } from "expo-image";
 
 import { common } from "../../constants";
 import { icons } from "../../constants";
-import useAppwrite from "../../lib/useAppwrite";
-import { getUserPosts, signOut } from "../../lib/appwrite";
+import useFirebase from "../../lib/useFirebase";
+import { getUserPosts, logOut } from "../../lib/firebase";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import { EmptyState, InfoBox, VideoCard } from "../../components";
 import { useState } from "react";
@@ -14,12 +14,14 @@ import CommentModal from "../../components/CommentModal";
 
 const Profile = () => {
   const { user, setUser, setIsLogged } = useGlobalContext();
-  const { data: posts } = useAppwrite(() => getUserPosts(user.$id));
+  const posts = [];
+  const { data } = useFirebase(() => getUserPosts(user.$id));
+  console.log("user posts",data);
 
   const [modalVisible, setModalVisible] = useState(false);
 
   const logout = async () => {
-    await signOut();
+    await logOut();
     setUser(null);
     setIsLogged(false);
 

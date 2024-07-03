@@ -3,12 +3,14 @@ import { Link, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, ScrollView, Dimensions, Alert } from "react-native";
 import { Image } from "expo-image";
+import * as ImagePicker from "expo-image-picker";
 
-import { images } from "../../constants";
+import { icons, images } from "../../constants";
 import { common } from "../../constants";
-import { createUser } from "../../lib/appwrite";
+import { createUser } from "../../lib/firebase";
 import { CustomButton, FormField } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
+import { onAuthStateChanged } from "firebase/auth";
 
 const SignUp = () => {
   const { setUser, setIsLogged } = useGlobalContext();
@@ -18,20 +20,45 @@ const SignUp = () => {
     username: "",
     email: "",
     password: "",
+    avatar: null,
   });
 
+  const openPicker = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setForm({
+        ...form,
+        avatar: result.assets[0],
+      });
+    }
+  };
+
   const submit = async () => {
-    if (form.username === "" || form.email === "" || form.password === "") {
+    if (
+      form.username === "" ||
+      form.email === "" ||
+      form.password === "" ||
+      !form.avatar
+    ) {
       Alert.alert("Error", "Please fill in all fields");
     }
 
     setSubmitting(true);
     try {
-      const result = await createUser(form.email, form.password, form.username);
-      setUser(result);
-      setIsLogged(true);
-
-      router.replace("/home");
+      await createUser(form.email, form.password, form.username, form.avatar);
+      onAuthStateChanged((user) => {
+        if (user) {
+          setUser(user);
+          setIsLogged(true);
+          router.replace("/home");
+        } else {
+          Alert.alert("sign up", "something went wrong");
+        }
+      });
     } catch (error) {
       Alert.alert("Error", error.message);
     } finally {
@@ -81,6 +108,36 @@ const SignUp = () => {
             handleChangeText={(e) => setForm({ ...form, password: e })}
             otherStyles="mt-7"
           />
+
+          <View className="mt-7 space-y-2">
+            <Text className="text-base text-gray-100 font-pmedium">Avatar</Text>
+
+            <TouchableOpacity onPress={openPicker}>
+              {form.avatar ? (
+                <Image
+                  source={{ uri: form.avatar.uri }}
+                  contentFit="cover"
+                  className="w-full h-64 rounded-2xl"
+                  placeholder={common.blurhash}
+                  transition={500}
+                />
+              ) : (
+                <View className="w-full h-16 px-4 bg-black-100 rounded-2xl border-2 border-black-200 flex justify-center items-center flex-row space-x-2">
+                  <Image
+                    source={icons.upload}
+                    contentFit="contain"
+                    alt="upload"
+                    className="w-5 h-5"
+                    placeholder={common.blurhash}
+                    transition={500}
+                  />
+                  <Text className="text-sm text-gray-100 font-pmedium">
+                    Choose a file
+                  </Text>
+                </View>
+              )}
+            </TouchableOpacity>
+          </View>
 
           <CustomButton
             title="Sign Up"

@@ -6,14 +6,14 @@ import { Image } from "expo-image";
 
 import { common } from "../../constants";
 import { images } from "../../constants";
-import useAppwrite from "../../lib/useAppwrite";
-import { getAllPosts, getLatestPosts } from "../../lib/appwrite";
+import useFirebase from "../../lib/useFirebase";
+import { getAllPosts, getLatestPosts } from "../../lib/firebase";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import CommentModal from "../../components/CommentModal";
 
 const Home = () => {
-  const { data: posts, refetch } = useAppwrite(getAllPosts);
-  const { data: latestPosts } = useAppwrite(getLatestPosts);
+  const { data: posts, refetch } = useFirebase(getAllPosts);
+  const { data: latestPosts } = useFirebase(getLatestPosts);
   const { user } = useGlobalContext();
   const [modalVisible, setModalVisible] = useState(false);
 

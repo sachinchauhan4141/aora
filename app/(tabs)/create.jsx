@@ -8,7 +8,7 @@ import { View, Text, Alert, TouchableOpacity, ScrollView } from "react-native";
 
 import { common } from "../../constants";
 import { icons } from "../../constants";
-import { createVideoPost } from "../../lib/appwrite";
+import { createVideoPost } from "../../lib/firebase";
 import { CustomButton, FormField } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
 

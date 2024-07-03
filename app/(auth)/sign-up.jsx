@@ -1,20 +1,23 @@
 import { useState } from "react";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { View, Text, ScrollView, Dimensions, Alert } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  Dimensions,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
+import { CustomButton, FormField } from "../../components";
 import { Image } from "expo-image";
 import * as ImagePicker from "expo-image-picker";
 
 import { icons, images } from "../../constants";
 import { common } from "../../constants";
-import { createUser } from "../../lib/firebase";
-import { CustomButton, FormField } from "../../components";
-import { useGlobalContext } from "../../context/GlobalProvider";
-import { onAuthStateChanged } from "firebase/auth";
+import { createUser } from "../../lib/useFirebase";
 
 const SignUp = () => {
-  const { setUser, setIsLogged } = useGlobalContext();
-
   const [isSubmitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     username: "",
@@ -50,15 +53,6 @@ const SignUp = () => {
     setSubmitting(true);
     try {
       await createUser(form.email, form.password, form.username, form.avatar);
-      onAuthStateChanged((user) => {
-        if (user) {
-          setUser(user);
-          setIsLogged(true);
-          router.replace("/home");
-        } else {
-          Alert.alert("sign up", "something went wrong");
-        }
-      });
     } catch (error) {
       Alert.alert("Error", error.message);
     } finally {

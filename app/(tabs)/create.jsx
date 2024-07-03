@@ -8,7 +8,7 @@ import { View, Text, Alert, TouchableOpacity, ScrollView } from "react-native";
 
 import { common } from "../../constants";
 import { icons } from "../../constants";
-import { createVideoPost } from "../../lib/firebase";
+import { createVideoPost } from "../../lib/useFirebase";
 import { CustomButton, FormField } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
@@ -62,7 +62,7 @@ const Create = () => {
     try {
       await createVideoPost({
         ...form,
-        userId: user.$id,
+        user,
       });
 
       Alert.alert("Success", "Post uploaded successfully");

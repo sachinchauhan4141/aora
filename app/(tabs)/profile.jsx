@@ -5,8 +5,7 @@ import { Image } from "expo-image";
 
 import { common } from "../../constants";
 import { icons } from "../../constants";
-import useFirebase from "../../lib/useFirebase";
-import { getUserPosts, logOut } from "../../lib/firebase";
+import useFirebase ,{ getUserPosts, logOut } from "../../lib/useFirebase";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import { EmptyState, InfoBox, VideoCard } from "../../components";
 import { useState } from "react";
@@ -14,9 +13,7 @@ import CommentModal from "../../components/CommentModal";
 
 const Profile = () => {
   const { user, setUser, setIsLogged } = useGlobalContext();
-  const posts = [];
-  const { data } = useFirebase(() => getUserPosts(user.$id));
-  console.log("user posts",data);
+  const { data:posts } = useFirebase(() => getUserPosts(user.userId));
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -32,10 +29,10 @@ const Profile = () => {
     <SafeAreaView className="bg-primary h-full">
       <FlatList
         data={posts}
-        keyExtractor={(item) => item.$id}
+        keyExtractor={(item) => item.videoId}
         renderItem={({ item }) => (
           <VideoCard
-            id={item.$id}
+            id={item.videoId}
             title={item.title}
             thumbnail={item.thumbnail}
             video={item.video}

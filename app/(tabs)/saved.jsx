@@ -2,8 +2,7 @@ import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { FlatList, RefreshControl, Text, View } from "react-native";
 
-import useFirebase from "../../lib/useFirebase";
-import { getAllPosts } from "../../lib/firebase";
+import useFirebase, { getAllPosts } from "../../lib/useFirebase";
 import { EmptyState, SearchInput, VideoCard } from "../../components";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import CommentModal from "../../components/CommentModal";
@@ -28,7 +27,7 @@ const Saved = () => {
         keyExtractor={(item) => item.$id}
         renderItem={({ item }) => (
           <VideoCard
-            id={item.$id}
+            id={item.videoId}
             title={item.title}
             thumbnail={item.thumbnail}
             video={item.video}

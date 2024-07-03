@@ -3,8 +3,7 @@ import { useLocalSearchParams } from "expo-router";
 import { View, Text, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import useFirebase from "../../lib/useFirebase";
-import { searchPosts } from "../../lib/firebase";
+import useFirebase , { searchPosts } from "../../lib/useFirebase";
 import { EmptyState, SearchInput, VideoCard } from "../../components";
 
 const Search = () => {

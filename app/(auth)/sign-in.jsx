@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, router } from "expo-router";
+import { Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Text, ScrollView, Dimensions, Alert } from "react-native";
 import { Image } from "expo-image";
@@ -7,12 +7,9 @@ import { Image } from "expo-image";
 import { images } from "../../constants";
 import { common } from "../../constants";
 import { CustomButton, FormField } from "../../components";
-import { signIn } from "../../lib/firebase";
-import { useGlobalContext } from "../../context/GlobalProvider";
-import { onAuthStateChanged } from "firebase/auth";
+import { signIn } from "../../lib/useFirebase";
 
 const SignIn = () => {
-  const { setUser, setIsLogged } = useGlobalContext();
   const [isSubmitting, setSubmitting] = useState(false);
   const [form, setForm] = useState({
     email: "",
@@ -28,15 +25,6 @@ const SignIn = () => {
 
     try {
       await signIn(form.email, form.password);
-      onAuthStateChanged((user) => {
-        if (user) {
-          setUser(user);
-          setIsLogged(true);
-          router.replace("/home");
-        } else {
-          Alert.alert("sign in", "something went wrong");
-        }
-      });
     } catch (error) {
       Alert.alert("Error", error.message);
     } finally {

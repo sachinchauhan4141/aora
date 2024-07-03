@@ -5,7 +5,7 @@ import { Image } from "expo-image";
 
 import { common } from "../constants";
 import { icons } from "../constants";
-import { toggleLike } from "../lib/firebase";
+import { toggleLike } from "../lib/useFirebase";
 import { useGlobalContext } from "../context/GlobalProvider";
 
 const VideoCard = ({
@@ -23,7 +23,7 @@ const VideoCard = ({
   const [isLiked, setIsLiked] = useState(liked);
 
   const handleLiked = async () => {
-    await toggleLike(id, user.username);
+    await toggleLike(id, user.username,isLiked);
     setIsLiked(!isLiked);
   };
 

@@ -6,8 +6,10 @@ import { Image } from "expo-image";
 
 import { common } from "../../constants";
 import { images } from "../../constants";
-import useFirebase from "../../lib/useFirebase";
-import { getAllPosts, getLatestPosts } from "../../lib/firebase";
+import useFirebase, {
+  getAllPosts,
+  getLatestPosts,
+} from "../../lib/useFirebase";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import CommentModal from "../../components/CommentModal";
 
@@ -29,16 +31,16 @@ const Home = () => {
     <SafeAreaView className="bg-primary h-full">
       <FlatList
         data={posts}
-        keyExtractor={(item) => item.$id}
+        keyExtractor={(item) => item?.videoId}
         renderItem={({ item }) => (
           <VideoCard
-            id={item.$id}
+            id={item.videoId}
             title={item.title}
             thumbnail={item.thumbnail}
             video={item.video}
             creator={item.creator?.username}
             avatar={item.creator?.avatar}
-            liked={item.like.includes(user?.username)}
+            liked={item.like?.includes(user?.username)}
             setVisible={setModalVisible}
           />
         )}

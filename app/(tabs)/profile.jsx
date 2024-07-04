@@ -13,7 +13,7 @@ import CommentModal from "../../components/CommentModal";
 
 const Profile = () => {
   const { user, setUser, setIsLogged } = useGlobalContext();
-  const { data:posts } = useFirebase(() => getUserPosts(user.userId));
+  const { data:posts } = useFirebase(() => getUserPosts(user));
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -29,7 +29,7 @@ const Profile = () => {
     <SafeAreaView className="bg-primary h-full">
       <FlatList
         data={posts}
-        keyExtractor={(item) => item.videoId}
+        keyExtractor={(item) => item?.videoId}
         renderItem={({ item }) => (
           <VideoCard
             id={item.videoId}
